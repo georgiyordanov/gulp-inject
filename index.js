@@ -195,11 +195,11 @@ function getNewContent (oldContent, collection, opt) {
       return contents.replace(
         getInjectorTagsRegExp(tagInfo.starttag, tagInfo.endtag),
         function injector (match, starttag, indent, content, endtag) {
-          return [starttag]
+          return (opt.removeTags ? [] : [starttag])
             .concat(tagInfo.files.map(function transformFile (file, i, files) {
               return opt.transform(file.filepath, file.file, i, files.length);
             }))
-            .concat([endtag])
+            .concat(opt.removeTags ? [] : [endtag])
             .join(indent);
         }
       );
